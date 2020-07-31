@@ -4,9 +4,11 @@
     "ecmaVersion": 6,
     "project": "./tsconfig.json"
   },
+  "ignorePatterns": ["**/__tests__/*"],
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "node": true
   },
   "extends": ["eslint:recommended", "eslint-config-prettier"]
 }
