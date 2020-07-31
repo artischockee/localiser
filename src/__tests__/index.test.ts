@@ -5,7 +5,7 @@ describe('Localiser', () => {
     let result: LocaliserInstance;
 
     it('should return new instance of LocaliserInstance class', () => {
-      result = Localiser.init({});
+      result = Localiser.init({}, 'ru');
 
       expect(result).toBeInstanceOf(LocaliserInstance);
     });
@@ -30,17 +30,7 @@ describe('LocaliserInstance', () => {
         },
       };
 
-      instance = new LocaliserInstance(localeResources);
-    });
-
-    describe('l()', () => {
-      let result: string | null;
-
-      it('should return null if "currentLocale" was not specified', () => {
-        result = instance.l('a/b/c');
-
-        expect(result).toBeNull();
-      });
+      instance = new LocaliserInstance(localeResources, 'en');
     });
 
     describe('ls()', () => {
