@@ -4,6 +4,9 @@
     "ecmaVersion": 6,
     "project": "./tsconfig.json"
   },
+  "ecmaFeatures": {
+    "modules": true
+  },
   "ignorePatterns": ["**/__tests__/*"],
   "env": {
     "browser": true,
