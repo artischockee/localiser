@@ -1,4 +1,4 @@
-const Utils = require('./utils');
+import Utils from './utils';
 
 type LocaleResources = Record<string, Record<string, string>>;
 type CurrentLocale = string;
