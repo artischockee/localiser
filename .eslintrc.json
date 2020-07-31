@@ -2,10 +2,8 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 6,
+    "sourceType": "module",
     "project": "./tsconfig.json"
-  },
-  "ecmaFeatures": {
-    "modules": true
   },
   "ignorePatterns": ["**/__tests__/*"],
   "env": {
