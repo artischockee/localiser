@@ -1,5 +1,7 @@
 # Localiser
 
+**Sorry for the inconvenience, the library at the moment does not work as expected. Please wait for the stable release. Once the issues will be solved, this remark will be deleted.**
+
 A set of localisation utilities primarily for React applications.
 
 ## Install
