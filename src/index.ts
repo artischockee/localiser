@@ -1,25 +1,37 @@
+import React from 'react';
 import Utils from './utils';
 
 type LocaleResources = Record<string, Record<string, string>>;
+interface Params {
+  localeResources: LocaleResources;
+  context: React.Context<any>;
+  localeContextPath: string;
+  defaultLocale?: string;
+}
 
 export class LocaliserInstance {
   private readonly resources: Record<string, Record<string, string>> = {};
   private readonly defaultLocale: string | null = null;
-  private readonly currentLocale: string | null = null;
+  private readonly context: React.Context<any>;
+  private readonly localeContextPath: string;
 
-  constructor(localeResources: LocaleResources, currentLocale: string, defaultLocale?: string) {
-    this.resources = localeResources;
-    this.currentLocale = currentLocale;
+  constructor(params: Params) {
+    this.resources = params.localeResources;
+    this.context = params.context;
+    this.localeContextPath = params.localeContextPath;
 
-    if (defaultLocale != null) {
-      this.defaultLocale = defaultLocale;
+    if (params.defaultLocale != null) {
+      this.defaultLocale = params.defaultLocale;
     }
   }
 
   getLocaleItem(locKey: string, params?: Record<string, any>) {
-    const locale = this.currentLocale || this.defaultLocale;
+    const context = React.useContext(this.context);
 
-    if (locale == null || this.resources[locale] == null) return null;
+    const locale =
+      Utils.getObjectPropertyByPath(context, this.localeContextPath) || this.defaultLocale;
+
+    if (locale == null || typeof locale !== 'string' || this.resources[locale] == null) return null;
 
     return Utils.getProcessedLocItem(this.resources[locale][locKey], params);
   }
@@ -41,7 +53,7 @@ export class LocaliserInstance {
 }
 
 export default class Localiser {
-  static init(localeResources: LocaleResources, currentLocale: string, defaultLocale?: string) {
-    return new LocaliserInstance(localeResources, currentLocale, defaultLocale);
+  static init(params: Params) {
+    return new LocaliserInstance(params);
   }
 }
