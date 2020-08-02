@@ -43,4 +43,23 @@ export default class Utils {
 
     return formattedLocItem;
   }
+
+  static getObjectPropertyByPath(obj: Record<any, any>, path: string) {
+    if (typeof obj !== 'object' || obj == null || Object.keys(obj).length === 0) return null;
+    if (path === '' || path == null) return obj;
+
+    const paths = path.split('.');
+
+    let property = obj;
+
+    paths.forEach((p, index) => {
+      if (property[p] == null) {
+        throw new ReferenceError(`Could not find ${p} property on index ${index} in the specified object.`);
+      }
+
+      property = property[p];
+    });
+
+    return property;
+  }
 }
