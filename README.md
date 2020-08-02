@@ -1,6 +1,8 @@
 # Localiser
 
 [![Codecov Coverage](https://img.shields.io/codecov/c/github/artischockee/localiser/master.svg?style=flat-square)](https://codecov.io/gh/artischockee/localiser/)
+[![NPM version](https://img.shields.io/npm/v/@artischocke/localiser?style=flat-square)](https://www.npmjs.com/package/@artischocke/localiser)
+![Minified size](https://img.shields.io/bundlephobia/min/@artischocke/localiser?style=flat-square)
 
 A set of localisation utilities designed for React applications.
 
