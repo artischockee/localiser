@@ -1,5 +1,8 @@
 node_modules
 /lib
 
+# Code coverage
+/coverage
+
 # IDE files
 .idea

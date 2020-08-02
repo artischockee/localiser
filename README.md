@@ -1,5 +1,7 @@
 # Localiser
 
+[![Codecov Coverage](https://img.shields.io/codecov/c/github/artischockee/localiser/master.svg?style=flat-square)](https://codecov.io/gh/artischockee/localiser/)
+
 A set of localisation utilities designed for React applications.
 
 Today it works only with **React Context API** (but I'm gonna extend the variety of possible options).
