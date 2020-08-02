@@ -28,8 +28,7 @@ export class LocaliserInstance {
   getLocaleItem(locKey: string, params?: Record<string, any>) {
     const context = React.useContext(this.context);
 
-    const locale =
-      Utils.getObjectPropertyByPath(context, this.localeContextPath) || this.defaultLocale;
+    const locale = Utils.getObjectPropertyByPath(context, this.localeContextPath) || this.defaultLocale;
 
     if (locale == null || typeof locale !== 'string' || this.resources[locale] == null) return null;
 
