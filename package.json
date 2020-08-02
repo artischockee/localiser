@@ -10,8 +10,8 @@
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags",
-    "test": "jest --config jestconfig.json",
-    "test:watch": "jest --config jestconfig.json --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "format": "prettier --write \"src/**/*.(ts|js)\"",
     "lint": "eslint --ext .ts,.js src/",
     "build": "tsc"
