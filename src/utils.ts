@@ -23,8 +23,8 @@ export default class Utils {
     return result;
   }
 
-  static getProcessedLocItem(locItem?: string, params: Record<string, any> | null = {}) {
-    if (locItem == null) return null;
+  static getProcessedLocItem(locItem?: string, params: Record<string, any> | null = {}): string {
+    if (locItem == null) return '';
     if (params == null || Object.keys(params).length === 0) return locItem;
 
     const matches = this.getAllMatchesByRegExp(/%(\w+)/g, locItem);

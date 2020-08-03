@@ -126,10 +126,10 @@ describe('Localiser', () => {
         expect(result).toBeNull();
       });
 
-      it('should return null if specified locKey does not exist', () => {
+      it('should return empty string if specified locKey does not exist', () => {
         result = localiser.ls('sto/nk/s', { param: 'bass', extra: 'stonks' }, 'ru');
 
-        expect(result).toBeNull();
+        expect(result).toBe('');
       });
     });
   });

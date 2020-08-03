@@ -54,10 +54,10 @@ describe('Utils', () => {
   describe('getProcessedLocItem()', () => {
     let result;
 
-    it('should return null when no arguments provided', () => {
+    it('should return empty string when no arguments provided', () => {
       result = Utils.getProcessedLocItem();
 
-      expect(result).toBeNull();
+      expect(result).toBe('');
     });
 
     it('should return the same string provided in the 1st argument', () => {

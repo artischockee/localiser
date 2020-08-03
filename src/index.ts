@@ -30,12 +30,12 @@ export class LocaliserInstance {
 
     const locale = Utils.getObjectPropertyByPath(context, this.localeContextPath) || this.defaultLocale;
 
-    if (locale == null || typeof locale !== 'string' || this.resources[locale] == null) return null;
+    if (locale == null || typeof locale !== 'string' || this.resources[locale] == null) return '';
 
     return Utils.getProcessedLocItem(this.resources[locale][locKey], params);
   }
 
-  l(locKey: string, params?: Record<string, any>) {
+  l(locKey: string, params?: Record<string, any>): string {
     return this.getLocaleItem(locKey, params);
   }
 
