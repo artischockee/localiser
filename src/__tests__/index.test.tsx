@@ -102,8 +102,20 @@ describe('Localiser', () => {
     describe('ls()', () => {
       let result: string | null;
 
-      it('should return correct and processed string (without params)', () => {
+      it('should return correct and processed string (params = null)', () => {
         result = localiser.ls('a/b/c', null, 'en');
+
+        expect(result).toBe('foo bar');
+      });
+
+      it('should return correct and processed string (params = {})', () => {
+        result = localiser.ls('a/b/c', {}, 'en');
+
+        expect(result).toBe('foo bar');
+      });
+
+      it('should return the same string if params contain non-existing key', () => {
+        result = localiser.ls('a/b/c', { iAmDoNotExist: 'I am very sorry' }, 'en');
 
         expect(result).toBe('foo bar');
       });
@@ -120,10 +132,10 @@ describe('Localiser', () => {
         expect(result).toBe('bass baz stonks');
       });
 
-      it('should return null if specified locale does not exist', () => {
+      it('should return empty string if specified locale does not exist', () => {
         result = localiser.ls('e/f/g', { param: 'bass', extra: 'stonks' }, 'stonks');
 
-        expect(result).toBeNull();
+        expect(result).toBe('');
       });
 
       it('should return empty string if specified locKey does not exist', () => {
