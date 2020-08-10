@@ -25,7 +25,7 @@ export class LocaliserInstance {
     }
   }
 
-  getLocaleItem(locKey: string, params?: Record<string, any>) {
+  private getLocaleItem(locKey: string, params?: Record<string, any>) {
     const context = React.useContext(this.context);
 
     const locale = Utils.getObjectPropertyByPath(context, this.localeContextPath) || this.defaultLocale;
@@ -44,8 +44,8 @@ export class LocaliserInstance {
    * you can achieve 'plain' localization (string, not wrapped into the React element)
    * from almost every place in code, even from not connected (to Redux store) functions.
    */
-  ls(locKey: string, params: Record<string, any> | null, locale: string): string | null {
-    if (this.resources[locale] == null) return null;
+  ls(locKey: string, params: Record<string, any> | null, locale: string): string {
+    if (this.resources[locale] == null) return '';
 
     return Utils.getProcessedLocItem(this.resources[locale][locKey], params);
   }
