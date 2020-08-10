@@ -6,7 +6,7 @@
 
 A set of localisation utilities designed for React applications.
 
-Today it works only with **React Context API** (but I'm gonna extend the variety of possible options).
+Today it works only with [**React Context API**](https://reactjs.org/docs/context.html) (but I'm gonna extend the variety of possible options).
 
 ## Install
 
@@ -25,8 +25,6 @@ yarn add @artischocke/localiser
 Suppose you wish to store the configuration in `locale.js`:
 
 ```javascript
-// locale.js
-
 import Localiser from '@artischocke/localiser';
 import AppContext from '../appContext';
 import ruResources from './localeResources/ru.json';
@@ -56,8 +54,6 @@ export default localiser;
 Later on, in `Component.jsx`:
 
 ```jsx
-// Component.jsx
-
 import React from 'react';
 import localiser from '../services/locale';
 
@@ -239,7 +235,6 @@ Creates localiser instance with specified parameters.
    
 #### Example
 
-`locale.js` configuration file:
 ```javascript
 import React from 'react';
 import Localiser from '@artischocke/localiser';
@@ -291,11 +286,10 @@ Returns localised string based on locale specified in `.init()` function (via **
 
 `string` with gathered text (either processed or not). The locale resource object, where the string is collected by the library, is found by the current locale (in provided `Context`).
 
-If `locKey` not found in locale resources - the function returns `''` (empty string).
+If `locKey` is not found in locale resources - the function returns `''` (empty string).
 
 #### Example
 
-`component.js`:
 ```jsx
 import React from 'react';
 import localiser from '../localiser';
@@ -349,7 +343,6 @@ This function is not using provided `Context` at all.
 
 #### Example
 
-`component.js`:
 ```jsx
 import React from 'react';
 import localiser from '../localiser';
