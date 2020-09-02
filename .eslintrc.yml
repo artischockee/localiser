@@ -1,0 +1,17 @@
+parser: "@typescript-eslint/parser"
+parserOptions:
+  ecmaVersion: 11
+  sourceType: module
+ignorePatterns:
+  - "**/__tests__/*"
+env:
+  browser: true
+  es2020: true
+  node: true
+extends:
+  - "eslint:recommended"
+  - "prettier"
+  - "plugin:@typescript-eslint/recommended"
+  - "plugin:react/recommended"
+plugins:
+  - "@typescript-eslint"
