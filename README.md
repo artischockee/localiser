@@ -365,6 +365,13 @@ export default function Component() {
 //   <span>classy! bax tax fax</span>
 ```
 
+## To-do list
+
+- [ ] Write documentation on GitHub Wiki
+- [ ] Implement own Context provider to "unbind" from user's Context
+- [ ] Implement interaction with Redux (as self-sufficient option of the library)
+- [ ] Implement standalone option of the library (no binding to React, Redux, etc.)
+
 ## Issues
 
 If you find any bugs and other issues when using this library, please let me know about this. Report issues in the specified section.
