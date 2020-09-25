@@ -1,0 +1,12 @@
+{
+  "ru": {
+    "a/b/c": "фоо бар",
+    "c/d/e": "фоо %str",
+    "e/f/g": "%param баз %extra"
+  },
+  "en": {
+    "a/b/c": "foo bar",
+    "c/d/e": "foo %str",
+    "e/f/g": "%param baz %extra"
+  }
+}
