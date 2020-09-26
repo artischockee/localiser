@@ -8,7 +8,7 @@ export function initialize(params: LocaleContextModel) {
   return localiserInstance;
 }
 
-export { LocaleContextModel } from './types';
+export { LocaleContextModel, LocaliserL } from './types';
 
 export { default as useLocaliser } from './useLocaliser';
 export { default as LocaleProvider } from './LocaleProvider';
