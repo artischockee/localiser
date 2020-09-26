@@ -1,9 +1,11 @@
 import { getProcessedLocItem } from './utils';
 import { LocaleContextModel } from './types';
 
+// TODO: rename to Localiser
 export default class LocaliserInstance {
   private readonly resources: Record<string, Record<string, string>> = {};
   private readonly fallbackLocale: string | null = null;
+  private currentLocale: string | null = null;
 
   constructor(params: LocaleContextModel) {
     this.resources = params.localeResources;
@@ -15,10 +17,12 @@ export default class LocaliserInstance {
     this.l = this.l.bind(this);
   }
 
-  l(locKey: string, params?: Record<string, any> | null, locale?: string): string {
-    console.log('l() : "this"', this);
+  set locale(_currentLocale: string | null) {
+    this.currentLocale = _currentLocale;
+  }
 
-    let _locale = locale || this.fallbackLocale;
+  l(locKey: string, params?: Record<string, any> | null, locale?: string): string {
+    let _locale = locale || this.currentLocale || this.fallbackLocale;
 
     if (_locale == null || this.resources[_locale] == null) {
       if (this.fallbackLocale != null && this.resources[this.fallbackLocale] != null) {

@@ -13,19 +13,7 @@ describe('LocaliserInstance', () => {
   const AppContext = React.createContext<AppContextModel>({
     dispatch: () => {},
   });
-  let Component = function () {
-    const { dispatch } = React.useContext(AppContext);
-    const l = useLocaliser();
-
-    return (
-      <>
-        <p role="loc-phrase">{l('a/b/c')}</p>
-        <button onClick={() => dispatch('ru')}>ru</button>
-        <button onClick={() => dispatch('en')}>en</button>
-        <button onClick={() => dispatch('ua')}>ua</button>
-      </>
-    );
-  };
+  let Component: React.FC;
   let WrapperComponent: React.FC;
 
   describe('rendering (base scenario)', () => {
@@ -35,7 +23,19 @@ describe('LocaliserInstance', () => {
         fallbackLocale: 'ru',
       });
 
+      Component = function () {
+        const { dispatch } = React.useContext(AppContext);
+        const l = useLocaliser();
 
+        return (
+          <>
+            <p role="loc-phrase">{l('a/b/c')}</p>
+            <button onClick={() => dispatch('ru')}>ru</button>
+            <button onClick={() => dispatch('en')}>en</button>
+            <button onClick={() => dispatch('ua')}>ua</button>
+          </>
+        );
+      };
 
       WrapperComponent = function () {
         const [locale, setLocale] = React.useState('en');
@@ -113,52 +113,6 @@ describe('LocaliserInstance', () => {
     });
   });
 
-  describe('rendering (without useLocaliser hook)', () => {
-    beforeAll(() => {
-      localiser = initialize({
-        localeResources,
-        fallbackLocale: 'ru',
-      });
-
-      Component = function () {
-        const { dispatch } = React.useContext(AppContext);
-
-        return (
-          <>
-            <p role="loc-phrase">{localiser.l('a/b/c')}</p>
-            <button onClick={() => dispatch('ru')}>ru</button>
-            <button onClick={() => dispatch('en')}>en</button>
-            <button onClick={() => dispatch('ua')}>ua</button>
-          </>
-        );
-      };
-
-      WrapperComponent = function () {
-        const [locale, setLocale] = React.useState('en');
-
-        return (
-          <AppContext.Provider value={{ dispatch: setLocale }}>
-            <LocaleProvider config={localiser} locale={locale}>
-              <Component />
-            </LocaleProvider>
-          </AppContext.Provider>
-        );
-      };
-    });
-
-    it('should switch locale to "ua" and render "a/b/c" locale key in Fallback locale (ru)', () => {
-      const { asFragment, getByText, getByRole } = render(<WrapperComponent />);
-
-      expect(asFragment()).toMatchSnapshot();
-      expect(getByRole('loc-phrase')).toHaveTextContent('фоо бар');
-
-      fireEvent.click(getByText(/ua/i));
-
-      expect(asFragment()).toMatchSnapshot();
-      expect(getByRole('loc-phrase')).toHaveTextContent('фоо бар');
-    });
-  });
-
   describe('l()', () => {
     let result: string | null;
 
@@ -192,10 +146,10 @@ describe('LocaliserInstance', () => {
       expect(result).toBe('bass baz stonks');
     });
 
-    it('should return string from fallback locale if specified locale does not exist', () => {
+    it('should return empty string if specified locale does not exist', () => {
       result = localiser.l('e/f/g', { param: 'bass', extra: 'stonks' }, 'stonks');
 
-      expect(result).toBe('bass баз stonks');
+      expect(result).toBe('');
     });
 
     it('should return empty string if specified locKey does not exist', () => {
