@@ -1,7 +1,7 @@
-import LocaliserInstance from './LocaliserInstance';
+import Localiser from './Localiser';
 
 interface _LocaliserInstance {
-  instance: LocaliserInstance | null;
+  instance: Localiser | null;
 }
 
 export const localiser: _LocaliserInstance = {

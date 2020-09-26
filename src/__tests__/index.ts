@@ -1,9 +1,9 @@
 import { initialize } from '../index';
-import LocaliserInstance from '../LocaliserInstance';
+import Localiser from '../Localiser';
 
 describe('Localiser', () => {
   describe('initialize()', () => {
-    let localiser: LocaliserInstance;
+    let localiser: Localiser;
 
     it('should return new instance of LocaliserInstance class', () => {
       localiser = initialize({
@@ -11,7 +11,7 @@ describe('Localiser', () => {
         fallbackLocale: 'ru',
       });
 
-      expect(localiser).toBeInstanceOf(LocaliserInstance);
+      expect(localiser).toBeInstanceOf(Localiser);
     });
   });
 });

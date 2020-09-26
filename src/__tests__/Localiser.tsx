@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import LocaliserInstance from '../LocaliserInstance';
+import Localiser from '../Localiser';
 import { initialize, LocaleProvider, useLocaliser } from '../index';
 import localeResources from '../__stubs__/localeResources.json';
 
@@ -9,7 +9,7 @@ interface AppContextModel {
 }
 
 describe('LocaliserInstance', () => {
-  let localiser: LocaliserInstance;
+  let localiser: Localiser;
   const AppContext = React.createContext<AppContextModel>({
     dispatch: () => {},
   });

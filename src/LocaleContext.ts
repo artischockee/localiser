@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import { LocaleConfig } from './types';
-import LocaliserInstance from './LocaliserInstance';
+import Localiser from './Localiser';
 
 let LocaleContext = createContext<LocaleConfig>({
   locale: '',
@@ -9,7 +9,7 @@ let LocaleContext = createContext<LocaleConfig>({
   },
 });
 
-export function initContext(localiserInstance: LocaliserInstance) {
+export function initContext(localiserInstance: Localiser) {
   LocaleContext = createContext<LocaleConfig>({
     locale: '',
     l: localiserInstance.l,

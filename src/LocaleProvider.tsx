@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import LocaleContext from './LocaleContext';
-import LocaliserInstance from './LocaliserInstance';
+import Localiser from './Localiser';
 import { localiser } from './instance';
 
 interface Props {
-  config: LocaliserInstance;
+  config: Localiser;
   locale: string;
   children: React.ReactNode;
 }
 
 export default function LocaleProvider(props: Props) {
   useEffect(() => {
-    if (localiser.instance instanceof LocaliserInstance) {
+    if (localiser.instance instanceof Localiser) {
       localiser.instance.locale = props.locale;
     }
   }, [props.locale]);

@@ -1,9 +1,9 @@
 import { LocaleContextModel } from './types';
-import LocaliserInstance from './LocaliserInstance';
+import Localiser from './Localiser';
 import { localiser } from './instance';
 
 export function initialize(params: LocaleContextModel) {
-  localiser.instance = new LocaliserInstance(params);
+  localiser.instance = new Localiser(params);
   // initContext(localiserInstance); // TODO: should be use it?
 
   return localiser.instance;
