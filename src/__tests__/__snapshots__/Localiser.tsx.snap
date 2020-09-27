@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LocaliserInstance rendering (base scenario) should render "a/b/c" locale key in English 1`] = `
+<DocumentFragment>
+  <p
+    role="loc-phrase"
+  >
+    foo bar
+  </p>
+  <button>
+    ru
+  </button>
+  <button>
+    en
+  </button>
+  <button>
+    ua
+  </button>
+</DocumentFragment>
+`;
+
+exports[`LocaliserInstance rendering (base scenario) should switch locale to "ru" and render "a/b/c" locale key in Russian 1`] = `
+<DocumentFragment>
+  <p
+    role="loc-phrase"
+  >
+    foo bar
+  </p>
+  <button>
+    ru
+  </button>
+  <button>
+    en
+  </button>
+  <button>
+    ua
+  </button>
+</DocumentFragment>
+`;
+
+exports[`LocaliserInstance rendering (base scenario) should switch locale to "ru" and render "a/b/c" locale key in Russian 2`] = `
+<DocumentFragment>
+  <p
+    role="loc-phrase"
+  >
+    фоо бар
+  </p>
+  <button>
+    ru
+  </button>
+  <button>
+    en
+  </button>
+  <button>
+    ua
+  </button>
+</DocumentFragment>
+`;
+
+exports[`LocaliserInstance rendering (base scenario) should switch locale to "ua" and render "a/b/c" locale key in Fallback locale (ru) 1`] = `
+<DocumentFragment>
+  <p
+    role="loc-phrase"
+  >
+    foo bar
+  </p>
+  <button>
+    ru
+  </button>
+  <button>
+    en
+  </button>
+  <button>
+    ua
+  </button>
+</DocumentFragment>
+`;
+
+exports[`LocaliserInstance rendering (base scenario) should switch locale to "ua" and render "a/b/c" locale key in Fallback locale (ru) 2`] = `
+<DocumentFragment>
+  <p
+    role="loc-phrase"
+  >
+    фоо бар
+  </p>
+  <button>
+    ru
+  </button>
+  <button>
+    en
+  </button>
+  <button>
+    ua
+  </button>
+</DocumentFragment>
+`;
+
+exports[`LocaliserInstance rendering (without fallback locale) should switch locale to "ua" and render "a/b/c" locale key in Fallback locale (ru) 1`] = `
+<DocumentFragment>
+  <p
+    role="loc-phrase"
+  >
+    foo bar
+  </p>
+  <button>
+    ru
+  </button>
+  <button>
+    en
+  </button>
+  <button>
+    ua
+  </button>
+</DocumentFragment>
+`;
+
+exports[`LocaliserInstance rendering (without fallback locale) should switch locale to "ua" and render "a/b/c" locale key in Fallback locale (ru) 2`] = `
+<DocumentFragment>
+  <p
+    role="loc-phrase"
+  />
+  <button>
+    ru
+  </button>
+  <button>
+    en
+  </button>
+  <button>
+    ua
+  </button>
+</DocumentFragment>
+`;
