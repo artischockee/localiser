@@ -1,14 +1,14 @@
-import { LocaleContextModel } from './types';
+import { LocaliserParams } from './types';
 import Localiser from './Localiser';
 import { localiser } from './instance';
 
-export function initialize(params: LocaleContextModel) {
+export function initialize(params: LocaliserParams) {
   localiser.instance = new Localiser(params);
 
   return localiser.instance;
 }
 
-export { LocaleContextModel, LocaliserL } from './types';
+export { LocaliserParams, LocaliserL } from './types';
 
 export { default as useLocaliser } from './useLocaliser';
 export { default as LocaleProvider } from './LocaleProvider';

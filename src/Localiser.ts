@@ -1,12 +1,12 @@
 import { getProcessedLocItem } from './utils';
-import { LocaleContextModel } from './types';
+import { LocaliserParams } from './types';
 
 export default class Localiser {
   private readonly resources: Record<string, Record<string, string>> = {};
   private readonly fallbackLocale: string | null = null;
   private currentLocale: string | null = null;
 
-  constructor(params: LocaleContextModel) {
+  constructor(params: LocaliserParams) {
     this.resources = params.localeResources;
 
     if (params.fallbackLocale != null) {
