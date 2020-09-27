@@ -25,350 +25,250 @@ yarn add @artischocke/localiser
 Suppose you wish to store the configuration in `locale.js`:
 
 ```javascript
-import Localiser from '@artischocke/localiser';
-import AppContext from '../appContext';
-import ruResources from './localeResources/ru.json';
+import { initialize } from '@artischocke/localiser';
 import enResources from './localeResources/en.json';
+import ruResources from './localeResources/ru.json';
 
-const localiser = Localiser.init({
+const localiser = initialize({
   // Provide locale resources in the object below.
   // You can specify any name you wish.
   localeResources: {
-    ru: ruResources,
     en: enResources,
+    ru: ruResources,
   },
-  // Specify the React Context instance where
-  // the application's locale stores.
-  context: AppContext,
-  // Indicate the path to the locale variable in
-  // the context object (that you provided above)
-  // (please read explanations below).
-  localeContextPath: 'data.locale',
-  // As a fallback, default locale can be used.
-  defaultLocale: 'ru',
+  fallbackLocale: 'en',
 });
 
 export default localiser;
+```
+
+Your localisation resources could look like that:
+
+`localeResources/en.json`
+
+```json
+{
+  "component/title": "Hello, world",
+  "component/copyright": "artischocke (c) 2010 - %currentYear"
+}
+```
+
+`localeResources/ru.json`
+
+```json
+{
+  "component/title": "Привет, мир",
+  "component/copyright": "артисчхоцке (c) 2010 - %currentYear"
+}
+```
+
+> Note the fact we've got `currentYear` word here, preceded by `%` symbol. This is dynamic variable, which can be replaced by any value you provide in `l()` function received from `useLocaliser()` hook.
+>
+> See below for details.
+
+Then, you wrap your core component (`App` in `App.jsx`, for example) in `LocaleProvider`:
+
+```jsx
+import React, { useState } from 'react';
+import { LocaleProvider } from '@artischocke/localiser';
+import localiser from './locale';
+
+export default function App(props) {
+  // You can change locale by any means you wish
+  const [locale] = useState('en');
+
+  return (
+    <LocaleProvider config={localiser} locale={locale}>
+      {/* Your application goes here */}
+    </LocaleProvider>
+  );
+}
 ```
 
 Later on, in `Component.jsx`:
 
 ```jsx
 import React from 'react';
-import localiser from '../services/locale';
+import { useLocaliser } from '@artischocke/localiser';
 
 export default function Component() {
+  const l = useLocaliser();
+
+  const currentYear = new Date().getFullYear(); // suppose it's 2020 year
+
   return (
-    <p>{localiser.l('component/paragraph/text')}</p>
+    <div>
+      <h1>{l('component/title')}</h1>
+      <p>{l('component/copyright', { currentYear })}</p>
+    </div>
   );
 }
 ```
 
 Result:
 
-```javascript
-// locale = 'en';
-render(Component);
-// --> <p>English text</p>
-
-// locale = 'ru';
-render(Component);
-// --> <p>Русский текст</p>;
-```
-
-### Detailed description
-
-Imagine your localisation resources look like that:
-
-`en.json`
-
-```json
-{
-  "component/paragraph/text": "English text",
-  "component/span/text": "We have %number bricks"
-}
-```
-
-`ru.json`
-
-```json
-{
-  "component/paragraph/text": "Русский текст",
-  "component/span/text": "У нас есть %number кирпичей"
-}
-```
-
-> Note the fact we've got `number` word here, preceded by `%` symbol. This is dynamic variable, which can be replaced by any value you provide in `.l()` and `.ls()` functions.
-> 
-> Look below for the details. 
-
-Then, we create context (with **React Context API**):
-
-`appContext.js`
-
-```javascript
-const AppContext = React.createContext({
-  data: {
-    locale: 'en',
-  },
-  dispatch: () => {},
-});
-
-export default AppContext;
-```
-
-Now we can create new Localiser instance:
-
-`locale.js`
-
-```javascript
-import Localiser from '@artischocke/localiser';
-import AppContext from '../appContext';
-import ruResources from './localeResources/ru.json';
-import enResources from './localeResources/en.json';
-
-const localiser = Localiser.init({
-  localeResources: {
-    ru: ruResources,
-    en: enResources,
-  },
-  context: AppContext,
-  // Because our AppContext's structure is:
-  // {
-  //   data: { locale: string },
-  //   dispatch: () => void,
-  // }
-  // We must specify the path to the locale variable
-  // in AppContext object, so 'data.locale' will be enough.
-  localeContextPath: 'data.locale',
-  defaultLocale: 'ru',
-});
-
-export default localiser;
-```
-
-In the core component (optionally) we create internal state and return `<AppContext.Provider>` as a wrapper for our application:
-
-`App.jsx`
-
 ```jsx
-import React from 'react';
-import AppContext from './appContext';
-import Component from './Component';
+// locale === 'en'
+render(<App />);
+// render result:
+// <div>
+//   <h1>Hello, world</h1>
+//   <p>artischocke (c) 2010 - 2020</p>
+// </div>
 
-export default function App(props) {
-  const [context, setContext] = React.useState({
-    locale: 'en',
-  });
-
-  return (
-    <AppContext.Provider value={{ data: context, dispatch: setContext }}>
-      <Component />
-    </AppContext.Provider>
-  );
-}
+// locale === 'ru'
+render(<App />);
+// render result:
+// <div>
+//   <h1>Привет, мир</h1>
+//   <p>артисчхоцке (c) 2010 - 2020</p>
+// </div>
 ```
 
-Eventually, we create our common app component:
-
-`Component.jsx`
-
-```jsx
-import React from 'react';
-import localiser from '../localiser';
-import AppContext from './appContext';
-
-export default function Component(props) {
-  const { dispatch } = React.useContext(AppContext);
-
-  function handleChangeLanguage() {
-    dispatch((prevState) => ({
-      ...prevState,
-      locale: prevState.locale === 'en' ? 'ru' : 'en',
-    }));
-  }
-
-  return (
-    <>
-      <p>{localiser.l('component/paragraph/text')}</p>
-      {/* Use ls() function when you want to control locale manually */}
-      <p>{localiser.ls('component/paragraph/text', null, 'ru')}</p>
-      {/* Second argument could be an object containing replacement data for the keys.
-          In 'component/span/text' key we have '%number' word, which, in this case,
-          will be replaced with '30'. */}
-      <span>{localiser.l('component/span/text', { number: 30 })}</span>      
-
-      <button onClick={handleChangeLanguage}>Change app language</button>
-    </>
-  );
-}
-```
-
-And that's all!
-
-When we click the button (triggering the locale to change), our components re-render, which results to updating the `l()` return values.
+When we change 'locale' state in `App` component (e.g. clicking the control button somewhere in the application), our `LocaleProvider` refreshes its internal knowledge about `locale` (passed as a prop in the provider), then re-render is invoked, which results to updating the `l()` return values.
 
 ## API Reference
 
-### `init(params)`
+### `initialize(params)`
 
 Creates localiser instance with specified parameters.
 
 #### Arguments
 
-1. `params` *(required)*. Type: `Params`.
+1. `params` _(required)_. Type: `LocaliserParams`.
 
    Initialisation parameters.
 
-   ```typescript
-   interface Params {
-     localeResources: Record<string, Record<string, string>>;
-     context: React.Context<any>;
-     localeContextPath: string;
-     defaultLocale?: string;
-   }
-   ```
-   
+   1. `localeResources` _(required)_. Type: `Record<string, Record<string, string>>`.
+
+   2. `fallbackLocale`. Type: `string`.
+
 #### Return value
 
-`LocaliserInstance` object with `.l()` and `.ls()` methods.
-   
+`Localiser` instance.
+
 #### Example
 
 ```javascript
-import React from 'react';
-import Localiser from '@artischocke/localiser';
-
-const ruResources = {
-  'foo/bar/baz': 'фоо бар баз',
-  'bax/tax/fax': 'бакс такс факс %word'
-};
+import { initialize } from '@artischocke/localiser';
 
 const enResources = {
   'foo/bar/baz': 'foo bar baz',
-  'bax/tax/fax': '%word bax tax fax'
+  'bax/tax/fax': '%word bax tax fax',
 };
 
-const AppContext = React.createContext({
-  data: {
-    locale: 'en',
-  },
-});
+const ruResources = {
+  'foo/bar/baz': 'фоо бар баз',
+  'bax/tax/fax': 'бакс такс факс %word',
+};
 
-const localiser = Localiser.init({
+const localiser = initialize({
   localeResources: {
-    ru: ruResources,
     en: enResources,
+    ru: ruResources,
   },
-  context: AppContext,
-  localeContextPath: 'data.locale',
-  defaultLocale: 'en',
+  fallbackLocale: 'en',
 });
 
 export default localiser;
 ```
-   
-### `l(locKey, params)`
 
-Returns localised string based on locale specified in `.init()` function (via **React Context**).
+### `<LocaleProvider />`
 
-#### Arguments
+A higher-order component (HOC) which provides the app's current locale to its children components.
 
-1. `locKey` *(required)*. Type: `string`.
+#### Props
 
-   Locale key specified in locale resources provided in `.init()` function.
-   
-2. `params`. Type: `Record<string, any>`.
+1. `config` _(required)_. Type: `Localiser`.
 
-   An object containing key-value pair(s), where each key represents the same word in the specified `locKey` text, and each value is a replacement for the key.
-   
-#### Return value
+   You should pass your `Localiser` instance that you obtained from `initialize()` function result.
 
-`string` with gathered text (either processed or not). The locale resource object, where the string is collected by the library, is found by the current locale (in provided `Context`).
+2. `locale` _(required)_. Type: `string`.
 
-If `locKey` is not found in locale resources - the function returns `''` (empty string).
+   The app's current locale.
 
 #### Example
 
 ```jsx
-import React from 'react';
-import localiser from '../localiser';
+import React, { useState } from 'react';
+import { LocaleProvider } from '@artischocke/localiser';
+import localiser from './locale';
 
-export default function Component() {
+export default function App(props) {
+  const [locale, setLocale] = useState('en');
+
   return (
-    <>
-      <p>{localiser.l('foo/bar/baz')}</p>
-      {/* 'bax/tax/fax': '%word bax tax fax' */}
-      <span>{localiser.l('bax/tax/fax', { word: 'super!' })}</span>
-      <span>{localiser.l('bax/tax/fax', { nonExistingKey: 'you will be upset' })}</span>
-      <p>{localiser.l('non/existing/locKey', { evenWith: 'params' })}</p> 
-    </>
+    <LocaleProvider config={localiser} locale={locale}>
+      {/* Your application goes here */}
+      <button type="button" onClick={() => setLocale('ru')}>
+        Switch to RU
+      </button>
+      <button type="button" onClick={() => setLocale('en')}>
+        Switch to EN
+      </button>
+    </LocaleProvider>
   );
 }
-
-// Render result (if locale is 'en'):
-//   <p>foo bar baz</p>
-//   <span>super! bax tax fax</span>
-//   <span>%word bax tax fax</span>
-//   <span></span>
 ```
 
-### `ls(locKey, params, locale)`
+### `useLocaliser()`
 
-Returns localised string based on `locale` argument.
+A custom hook that returns function which processes its arguments and returns localised string.
 
-It is a 'standalone' version of `.l()`, which means you do not actually need to have locale value in `Context`.
-
-This function is not using provided `Context` at all.
-
-#### Arguments
-
-1. `locKey` *(required)*. Type: `string`.
-
-   Locale key specified in locale resources provided in `.init()` function.
-   
-2. `params` *(required)*. Type: `Record<string, any>` or `null`.
-
-   An object containing key-value pair(s), where each key represents the same word in the specified `locKey` text, and each value is a replacement for the key.
-   
-   If no `params` assumed to use - just pass `null` or `{}`.
-   
-3. `locale` *(required)*. Type: `string`.
-
-   String that matches one of the keys of locale resources.
-   
 #### Return value
 
-`string` with gathered text (either processed or not). The locale resource object, where the string is collected by the library, is found by the `locale` argument.
+Function `l(locKey, params)`
+
+1. `locKey` _(required)_. Type: `string`.
+
+   A localisation key which addresses to one of the keys in localisation resource files.
+
+2. `params`. Type: `Record<string, any>`.
+
+   An optional object containing key-value pair(s), where each key represents the same word in the specified `locKey` text, and each value is a replacement for the key.
+
+Function `l()` returns `string` with gathered text (either processed or not). The locale resource object, where the string is collected by the library, is found by the current locale.
+
+If `locKey` is not found in current locale resources, the method will try to find the key in the fallback locale provided in config. If no luck - the function returns `''` (empty string).
 
 #### Example
 
 ```jsx
 import React from 'react';
-import localiser from '../localiser';
+import { useLocaliser } from '@artischocke/localiser';
 
 export default function Component() {
+  const l = useLocaliser();
+
+  const currentYear = new Date().getFullYear(); // suppose it's 2020 year
+
   return (
-    <>
-      {/* [ru] 'foo/bar/baz': 'фоо бар баз' */}
-      <p>{localiser.ls('foo/bar/baz', null, 'ru')}</p>
-      {/* [ru] 'bax/tax/fax': 'бакс такс факс %word' */}
-      <span>{localiser.ls('bax/tax/fax', { word: 'super!' }, 'ru')}</span>
-      <span>{localiser.ls('bax/tax/fax', { word: 'classy!' }, 'en')}</span>
-    </>
+    <div>
+      <h1>{l('component/title')}</h1>
+      <p>{l('component/copyright', { currentYear })}</p>
+    </div>
   );
 }
 
-// Render result (no matter which 'locale' is in Context):
-//   <p>фоо бар баз</p>
-//   <span>бакс такс факс super!</span>
-//   <span>classy! bax tax fax</span>
+// locale === 'en'
+// render result:
+// <div>
+//   <h1>Hello, world</h1>
+//   <p>artischocke (c) 2010 - 2020</p>
+// </div>
+
+// locale === 'ru'
+// render result:
+// <div>
+//   <h1>Привет, мир</h1>
+//   <p>артисчхоцке (c) 2010 - 2020</p>
+// </div>
 ```
 
 ## To-do list
 
 - [ ] Write documentation on GitHub Wiki
-- [ ] Implement own Context provider to "unbind" from user's Context
+- [x] Implement own Context provider to "unbind" from user's Context
 - [ ] Implement interaction with Redux (as self-sufficient option of the library)
 - [ ] Implement standalone option of the library (no binding to React, Redux, etc.)
 
