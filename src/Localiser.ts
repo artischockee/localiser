@@ -20,7 +20,7 @@ export default class Localiser {
     this.currentLocale = _currentLocale;
   }
 
-  l(locKey: string, params?: Record<string, any> | null, locale?: string): string {
+  l(locKey: string, params?: Record<string, unknown> | null, locale?: string): string {
     let _locale = locale || this.currentLocale || this.fallbackLocale;
 
     if (_locale == null || this.resources[_locale] == null) {

@@ -9,7 +9,7 @@ export default function __internal__useLocaliser() {
   }
 
   return useCallback(
-    (locKey: string, params?: Record<string, any>) => {
+    (locKey: string, params?: Record<string, unknown>) => {
       return context.l(locKey, params, context.locale);
     },
     [context],

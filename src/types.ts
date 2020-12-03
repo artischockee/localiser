@@ -1,6 +1,6 @@
 export interface LocaleConfig {
   locale: string;
-  l(locKey: string, params?: Record<string, any> | null, locale?: string): string;
+  l(locKey: string, params?: Record<string, unknown> | null, locale?: string): string;
 }
 
 export interface LocaliserParams {
@@ -8,4 +8,4 @@ export interface LocaliserParams {
   fallbackLocale?: string;
 }
 
-export type LocaliserL = (locKey: string, params?: Record<string, any>) => string;
+export type LocaliserL = (locKey: string, params?: Record<string, unknown>) => string;

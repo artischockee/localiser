@@ -22,7 +22,7 @@ export function getAllMatchesByRegExp(regExp: RegExp, string: string) {
   return result;
 }
 
-export function getProcessedLocItem(locItem?: string, params: Record<string, any> | null = {}): string {
+export function getProcessedLocItem(locItem?: string, params: Record<string, unknown> | null = {}): string {
   if (locItem == null) return '';
   if (params == null || Object.keys(params).length === 0) return locItem;
 
@@ -37,7 +37,7 @@ export function getProcessedLocItem(locItem?: string, params: Record<string, any
       return;
     }
 
-    formattedLocItem = formattedLocItem.replace(match[0], params[match[1]]);
+    formattedLocItem = formattedLocItem.replace(match[0], params[match[1]] as string);
   });
 
   return formattedLocItem;
