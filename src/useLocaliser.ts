@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 import LocaleContext from './LocaleContext';
 
-export default function __internal__useLocaliser() {
+export default function _useLocaliser() {
   const context = useContext(LocaleContext);
 
   if (context == null || typeof context.l !== 'function') {
