@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { createContext, Dispatch, FC, SetStateAction, useContext, useState } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import Localiser from '../Localiser';
 import { initialize, LocaleProvider, useLocaliser } from '../index';
 import localeResources from '../__stubs__/localeResources.json';
 
 interface AppContextModel {
-  dispatch: React.Dispatch<React.SetStateAction<string>>;
+  dispatch: Dispatch<SetStateAction<string>>;
 }
 
 describe('LocaliserInstance', () => {
   let localiser: Localiser;
-  const AppContext = React.createContext<AppContextModel>({
+  const AppContext = createContext<AppContextModel>({
     dispatch: () => {},
   });
-  let Component: React.FC;
-  let WrapperComponent: React.FC;
+  let Component: FC;
+  let WrapperComponent: FC;
 
   describe('rendering (base scenario)', () => {
     beforeAll(() => {
@@ -24,7 +24,7 @@ describe('LocaliserInstance', () => {
       });
 
       Component = function () {
-        const { dispatch } = React.useContext(AppContext);
+        const { dispatch } = useContext(AppContext);
         const l = useLocaliser();
 
         return (
@@ -38,7 +38,7 @@ describe('LocaliserInstance', () => {
       };
 
       WrapperComponent = function () {
-        const [locale, setLocale] = React.useState('en');
+        const [locale, setLocale] = useState('en');
 
         return (
           <AppContext.Provider value={{ dispatch: setLocale }}>
@@ -88,7 +88,7 @@ describe('LocaliserInstance', () => {
       });
 
       WrapperComponent = function () {
-        const [locale, setLocale] = React.useState('en');
+        const [locale, setLocale] = useState('en');
 
         return (
           <AppContext.Provider value={{ dispatch: setLocale }}>
