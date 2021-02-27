@@ -1,5 +1,6 @@
 node_modules
 /lib
+yarn.lock
 
 # Code coverage
 /coverage
