@@ -1,6 +1,6 @@
 {
   "name": "@artischocke/localiser",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A set of localisation utilities primarily for React applications",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
