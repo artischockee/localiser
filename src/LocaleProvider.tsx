@@ -9,7 +9,7 @@ interface Props {
   children: ReactNode;
 }
 
-export default function LocaleProvider(props: Props) {
+export default function LocaleProvider(props: Props): JSX.Element {
   useEffect(() => {
     if (localiser.instance instanceof Localiser) {
       localiser.instance.locale = props.locale;
