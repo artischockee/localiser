@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import LocaleContext from './LocaleContext';
 import Localiser from './Localiser';
 import { localiser } from './instance';
@@ -9,7 +9,7 @@ interface Props {
   children: ReactNode;
 }
 
-export default function LocaleProvider(props: Props) {
+export default function LocaleProvider(props: Props): JSX.Element {
   useEffect(() => {
     if (localiser.instance instanceof Localiser) {
       localiser.instance.locale = props.locale;

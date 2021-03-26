@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
 import LocaleContext from './LocaleContext';
 
-export default function _useLocaliser() {
+export default function _useLocaliser(): (locKey: string, params?: Record<string, unknown>) => string {
   const context = useContext(LocaleContext);
 
   if (context == null || typeof context.l !== 'function') {

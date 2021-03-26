@@ -2,7 +2,7 @@ import { LocaliserParams } from './types';
 import Localiser from './Localiser';
 import { localiser } from './instance';
 
-export function initialize(params: LocaliserParams) {
+export function initialize(params: LocaliserParams): Localiser {
   localiser.instance = new Localiser(params);
 
   return localiser.instance;

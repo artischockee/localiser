@@ -1,17 +1,17 @@
-export function warn(message: string) {
+export function warn(message: string): void {
   console.warn('Localiser: ' + message);
 }
 
-export function getAllMatchesByRegExp(regExp: RegExp, string: string) {
+export function getAllMatchesByRegExp(regExp: RegExp, string: string): string[][] {
   let innerRegExp = regExp;
 
   if (!innerRegExp.flags.includes('g')) {
     innerRegExp = new RegExp(innerRegExp.source, innerRegExp.flags + 'g');
   }
 
-  const result = [];
+  const result: string[][] = [];
 
-  let match;
+  let match: RegExpExecArray | null;
   do {
     match = innerRegExp.exec(string);
     if (match) {
