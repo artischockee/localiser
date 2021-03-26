@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext } from 'react';
+import { ReactElement, useContext } from 'react';
 import LocaleContext from '../LocaleContext';
 import { render } from '@testing-library/react';
 

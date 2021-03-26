@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import LocaleContext from './LocaleContext';
 import Localiser from './Localiser';
 import { localiser } from './instance';
